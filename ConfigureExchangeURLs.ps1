@@ -79,3 +79,6 @@ Get-WebServicesVirtualDirectory -Server $server | Set-WebServicesVirtualDirector
 
 Write-Host "Configuring Offline Address Book URLs"
 Get-OabVirtualDirectory -Server $server | Set-OabVirtualDirectory -ExternalUrl https://$externalurl/OAB -InternalUrl https://$internalurl/OAB
+
+Write-Host "Configuring Autodiscover"
+Set-ClientAccessServer -Server $server -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
