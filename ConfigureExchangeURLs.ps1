@@ -81,4 +81,4 @@ Write-Host "Configuring Offline Address Book URLs"
 Get-OabVirtualDirectory -Server $server | Set-OabVirtualDirectory -ExternalUrl https://$externalurl/OAB -InternalUrl https://$internalurl/OAB
 
 Write-Host "Configuring Autodiscover"
-Get-ClientAccessServer $serverSet | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
+Get-ClientAccessServer $server | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
