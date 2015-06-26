@@ -80,5 +80,8 @@ Get-WebServicesVirtualDirectory -Server $server | Set-WebServicesVirtualDirector
 Write-Host "Configuring Offline Address Book URLs"
 Get-OabVirtualDirectory -Server $server | Set-OabVirtualDirectory -ExternalUrl https://$externalurl/OAB -InternalUrl https://$internalurl/OAB
 
+Write-Host "Configuring MAPI/HTTP URLs"
+Get-MapiVirtualDirectory -Server $server | Set-MapiVirtualDirectory -ExternalUrl https://$externalurl/mapi -InternalUrl https://$internalurl/mapi
+
 Write-Host "Configuring Autodiscover"
 Get-ClientAccessServer $server | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
