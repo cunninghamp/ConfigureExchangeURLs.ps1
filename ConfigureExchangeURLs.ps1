@@ -47,6 +47,7 @@ Find me on:
 
 Change Log:
 V1.00, 13/11/2014 - Initial version
+V1.01, 26/06/2015 - Added MAPI/HTTP URL configuration
 #>
 
 #requires -version 2
