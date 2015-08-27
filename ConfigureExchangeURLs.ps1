@@ -21,7 +21,7 @@ The name(s) of the server(s) you are configuring.
 The internal namespace you are using.
 
 .PARAMETER ExternalURL
-The internal namespace you are using.
+The external namespace you are using.
 
 .PARAMETER DefaultAuth
 The default authentication method to set for Outlook Anywhere. Defaults to NTLM.
