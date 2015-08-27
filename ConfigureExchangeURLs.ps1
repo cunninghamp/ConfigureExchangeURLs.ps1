@@ -10,9 +10,9 @@ URLs will be set to the same namespace.
 If you are using separate namespaces for each CAS service this script will
 not handle that.
 
-The script sets Outlook Anywhere to use NTLM with SSL required. If you have
-different auth requirements for Outlook Anywhere modify that command
-in the script first.
+The script sets Outlook Anywhere to use NTLM with SSL required by default.
+If you have different auth requirements for Outlook Anywhere  use the optional
+parameters to set those.
 
 .PARAMETER Server
 The name(s) of the server(s) you are configuring.
