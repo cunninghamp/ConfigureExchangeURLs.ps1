@@ -61,6 +61,7 @@ Change Log:
 V1.00, 13/11/2014 - Initial version
 V1.01, 26/06/2015 - Added MAPI/HTTP URL configuration
 V1.02, 27/08/2015 - Improved error handling, can now specify multiple servers to configure at once.
+V1.03, 09/09/2015 - ExternalURL can now be $null
 #>
 
 #requires -version 2
@@ -74,6 +75,7 @@ param(
 	[string]$InternalURL,
 
 	[Parameter( Mandatory=$true)]
+    [AllowEmptyString()]
 	[string]$ExternalURL,
 
     [Parameter( Mandatory=$false)]
@@ -126,23 +128,48 @@ Process {
             Write-Host "Configuring Outlook Anywhere URLs"
             Get-OutlookAnywhere -Server $i | Set-OutlookAnywhere -ExternalHostname $externalurl -InternalHostname $internalurl -ExternalClientsRequireSsl $ExternalSSL -InternalClientsRequireSsl $InternalSSL -DefaultAuthenticationMethod $DefaultAuth
 
-            Write-Host "Configuring Outlook Web App URLs"
-            Get-OwaVirtualDirectory -Server $i | Set-OwaVirtualDirectory -ExternalUrl https://$externalurl/owa -InternalUrl https://$internalurl/owa
+            if ($externalurl -eq $null)
+            {
+                Write-Host "Configuring Outlook Web App URLs"
+                Get-OwaVirtualDirectory -Server $i | Set-OwaVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/owa
 
-            Write-Host "Configuring Exchange Control Panel URLs"
-            Get-EcpVirtualDirectory -Server $i | Set-EcpVirtualDirectory -ExternalUrl https://$externalurl/ecp -InternalUrl https://$internalurl/ecp
+                Write-Host "Configuring Exchange Control Panel URLs"
+                Get-EcpVirtualDirectory -Server $i | Set-EcpVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/ecp
 
-            Write-Host "Configuring ActiveSync URLs"
-            Get-ActiveSyncVirtualDirectory -Server $i | Set-ActiveSyncVirtualDirectory -ExternalUrl https://$externalurl/Microsoft-Server-ActiveSync -InternalUrl https://$internalurl/Microsoft-Server-ActiveSync
+                Write-Host "Configuring ActiveSync URLs"
+                Get-ActiveSyncVirtualDirectory -Server $i | Set-ActiveSyncVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/Microsoft-Server-ActiveSync
 
-            Write-Host "Configuring Exchange Web Services URLs"
-            Get-WebServicesVirtualDirectory -Server $i | Set-WebServicesVirtualDirectory -ExternalUrl https://$externalurl/EWS/Exchange.asmx -InternalUrl https://$internalurl/EWS/Exchange.asmx
+                Write-Host "Configuring Exchange Web Services URLs"
+                Get-WebServicesVirtualDirectory -Server $i | Set-WebServicesVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/EWS/Exchange.asmx
 
-            Write-Host "Configuring Offline Address Book URLs"
-            Get-OabVirtualDirectory -Server $i | Set-OabVirtualDirectory -ExternalUrl https://$externalurl/OAB -InternalUrl https://$internalurl/OAB
+                Write-Host "Configuring Offline Address Book URLs"
+                Get-OabVirtualDirectory -Server $i | Set-OabVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/OAB
 
-            Write-Host "Configuring MAPI/HTTP URLs"
-            Get-MapiVirtualDirectory -Server $i | Set-MapiVirtualDirectory -ExternalUrl https://$externalurl/mapi -InternalUrl https://$internalurl/mapi
+                Write-Host "Configuring MAPI/HTTP URLs"
+                Get-MapiVirtualDirectory -Server $i | Set-MapiVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/mapi
+            }
+            else
+            {
+                Write-Host "Configuring Outlook Web App URLs"
+                Get-OwaVirtualDirectory -Server $i | Set-OwaVirtualDirectory -ExternalUrl https://$externalurl/owa -InternalUrl https://$internalurl/owa
+
+                Write-Host "Configuring Exchange Control Panel URLs"
+                Get-EcpVirtualDirectory -Server $i | Set-EcpVirtualDirectory -ExternalUrl https://$externalurl/ecp -InternalUrl https://$internalurl/ecp
+
+                Write-Host "Configuring ActiveSync URLs"
+                Get-ActiveSyncVirtualDirectory -Server $i | Set-ActiveSyncVirtualDirectory -ExternalUrl https://$externalurl/Microsoft-Server-ActiveSync -InternalUrl https://$internalurl/Microsoft-Server-ActiveSync
+
+                Write-Host "Configuring Exchange Web Services URLs"
+                Get-WebServicesVirtualDirectory -Server $i | Set-WebServicesVirtualDirectory -ExternalUrl https://$externalurl/EWS/Exchange.asmx -InternalUrl https://$internalurl/EWS/Exchange.asmx
+
+                Write-Host "Configuring Offline Address Book URLs"
+                Get-OabVirtualDirectory -Server $i | Set-OabVirtualDirectory -ExternalUrl https://$externalurl/OAB -InternalUrl https://$internalurl/OAB
+
+                Write-Host "Configuring MAPI/HTTP URLs"
+                Get-MapiVirtualDirectory -Server $i | Set-MapiVirtualDirectory -ExternalUrl https://$externalurl/mapi -InternalUrl https://$internalurl/mapi
+            }
+
+
 
             Write-Host "Configuring Autodiscover"
             Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
