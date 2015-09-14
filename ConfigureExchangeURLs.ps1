@@ -128,7 +128,7 @@ Process {
             Write-Host "Configuring Outlook Anywhere URLs"
             Get-OutlookAnywhere -Server $i | Set-OutlookAnywhere -ExternalHostname $externalurl -InternalHostname $internalurl -ExternalClientsRequireSsl $ExternalSSL -InternalClientsRequireSsl $InternalSSL -DefaultAuthenticationMethod $DefaultAuth
 
-            if ($externalurl -eq $null)
+            if ($externalurl -eq "")
             {
                 Write-Host "Configuring Outlook Web App URLs"
                 Get-OwaVirtualDirectory -Server $i | Set-OwaVirtualDirectory -ExternalUrl $null -InternalUrl https://$internalurl/owa
