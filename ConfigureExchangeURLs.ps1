@@ -86,6 +86,7 @@ V1.00, 13/11/2014 - Initial version
 V1.01, 26/06/2015 - Added MAPI/HTTP URL configuration
 V1.02, 27/08/2015 - Improved error handling, can now specify multiple servers to configure at once.
 V1.03, 09/09/2015 - ExternalURL can now be $null
+V1.04, 19/09/2016 - Removed DefaultAuth option as it is not required for standard configs
 #>
 
 #requires -version 2
@@ -101,9 +102,6 @@ param(
 	[Parameter( Mandatory=$true)]
     [AllowEmptyString()]
 	[string]$ExternalURL,
-
-    [Parameter( Mandatory=$false)]
-    [string]$DefaultAuth="NTLM",
 
     [Parameter( Mandatory=$false)]
     [Boolean]$InternalSSL=$true,
@@ -144,13 +142,12 @@ Process {
             Write-Host "Values:"
             Write-Host " - Internal URL: $InternalURL"
             Write-Host " - External URL: $ExternalURL"
-            Write-Host " - Outlook Anywhere default authentication: $DefaultAuth"
             Write-Host " - Outlook Anywhere internal SSL required: $InternalSSL"
             Write-Host " - Outlook Anywhere external SSL required: $ExternalSSL"
             Write-Host "`r`n"
 
             Write-Host "Configuring Outlook Anywhere URLs"
-            Get-OutlookAnywhere -Server $i | Set-OutlookAnywhere -ExternalHostname $externalurl -InternalHostname $internalurl -ExternalClientsRequireSsl $ExternalSSL -InternalClientsRequireSsl $InternalSSL -DefaultAuthenticationMethod $DefaultAuth
+            Get-OutlookAnywhere -Server $i | Set-OutlookAnywhere -ExternalHostname $externalurl -InternalHostname $internalurl -ExternalClientsRequireSsl $ExternalSSL -InternalClientsRequireSsl $InternalSSL
 
             if ($externalurl -eq "")
             {
