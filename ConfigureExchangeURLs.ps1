@@ -23,9 +23,6 @@ The internal namespace you are using.
 .PARAMETER ExternalURL
 The external namespace you are using.
 
-.PARAMETER DefaultAuth
-The default authentication method to set for Outlook Anywhere. Defaults to NTLM.
-
 .PARAMETER InternalSSL
 Specifies the internal SSL requirement for Outlook Anywhere. Defaults to True (SSL required).
 
@@ -86,6 +83,7 @@ V1.00, 13/11/2014 - Initial version
 V1.01, 26/06/2015 - Added MAPI/HTTP URL configuration
 V1.02, 27/08/2015 - Improved error handling, can now specify multiple servers to configure at once.
 V1.03, 09/09/2015 - ExternalURL can now be $null
+V1.04, 17/11/2016 - Removed Outlook Anywhere auth settings, script now sets URLs only
 #>
 
 #requires -version 2
@@ -101,9 +99,6 @@ param(
 	[Parameter( Mandatory=$true)]
     [AllowEmptyString()]
 	[string]$ExternalURL,
-
-    [Parameter( Mandatory=$false)]
-    [string]$DefaultAuth="NTLM",
 
     [Parameter( Mandatory=$false)]
     [Boolean]$InternalSSL=$true,
@@ -144,13 +139,15 @@ Process {
             Write-Host "Values:"
             Write-Host " - Internal URL: $InternalURL"
             Write-Host " - External URL: $ExternalURL"
-            Write-Host " - Outlook Anywhere default authentication: $DefaultAuth"
             Write-Host " - Outlook Anywhere internal SSL required: $InternalSSL"
             Write-Host " - Outlook Anywhere external SSL required: $ExternalSSL"
             Write-Host "`r`n"
 
             Write-Host "Configuring Outlook Anywhere URLs"
-            Get-OutlookAnywhere -Server $i | Set-OutlookAnywhere -ExternalHostname $externalurl -InternalHostname $internalurl -ExternalClientsRequireSsl $ExternalSSL -InternalClientsRequireSsl $InternalSSL -DefaultAuthenticationMethod $DefaultAuth
+            $OutlookAnywhere = Get-OutlookAnywhere -Server $i
+            $OutlookAnywhere | Set-OutlookAnywhere -ExternalHostname $externalurl -InternalHostname $internalurl `
+                                -ExternalClientsRequireSsl $ExternalSSL -InternalClientsRequireSsl $InternalSSL `
+                                -ExternalClientAuthenticationMethod $OutlookAnywhere.ExternalClientAuthenticationMethod
 
             if ($externalurl -eq "")
             {
@@ -192,8 +189,6 @@ Process {
                 Write-Host "Configuring MAPI/HTTP URLs"
                 Get-MapiVirtualDirectory -Server $i | Set-MapiVirtualDirectory -ExternalUrl https://$externalurl/mapi -InternalUrl https://$internalurl/mapi
             }
-
-
 
             Write-Host "Configuring Autodiscover"
             Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
