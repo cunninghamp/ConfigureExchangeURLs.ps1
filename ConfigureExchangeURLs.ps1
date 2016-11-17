@@ -100,6 +100,9 @@ param(
     [AllowEmptyString()]
 	[string]$ExternalURL,
 
+	[Parameter( Mandatory=$false)]
+	[string]$AutodiscoverSCP,
+
     [Parameter( Mandatory=$false)]
     [Boolean]$InternalSSL=$true,
 
@@ -191,7 +194,13 @@ Process {
             }
 
             Write-Host "Configuring Autodiscover"
-            Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
+            if ($AutodiscoverSCP) {
+                Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$AutodiscoverSCP/Autodiscover/Autodiscover.xml
+            }
+            else {
+                Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
+            }
+
 
             Write-Host "`r`n"
         }
