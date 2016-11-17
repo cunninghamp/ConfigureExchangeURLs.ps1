@@ -26,7 +26,7 @@ Parameters:
 - **-Server** - The name(s) of the server(s) you are configuring.
 - **-InternalURL** - The internal namespace you are using.
 - **-ExternalURL** - The external namespace you are using.
-- **-DefaultAuth** - The default authentication method to set for Outlook Anywhere. Defaults to NTLM.
+- **-AutodiscoverSCP** - Used to set a different Autodiscover URL if you need to.
 - **-InternalSSL** - Specifies the internal SSL requirement for Outlook Anywhere. Defaults to True (SSL required).
 - **-ExternalSSL** - Specifies the external SSL requirement for Outlook Anywhere. Defaults to True (SSL required).
 
@@ -38,6 +38,10 @@ Examples:
 
 ```
 .\ConfigureExchangeURLs.ps1 -Server sydex1,sydex2 -InternalURL mail.exchangeserverpro.net -ExternalURL mail.exchangeserverpro.net
+```
+
+```
+.\ConfigureExchangeURLs.ps1 -Server sydex1 -InternalURL mail.exchangeserverpro.net -ExternalURL mail.exchangeserverpro.net -AutodiscoverSCP autodiscover.exchangeserverpro.net
 ```
 
 ##More Info

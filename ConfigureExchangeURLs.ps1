@@ -84,6 +84,7 @@ V1.01, 26/06/2015 - Added MAPI/HTTP URL configuration
 V1.02, 27/08/2015 - Improved error handling, can now specify multiple servers to configure at once.
 V1.03, 09/09/2015 - ExternalURL can now be $null
 V1.04, 17/11/2016 - Removed Outlook Anywhere auth settings, script now sets URLs only
+V1.05, 18/11/2016 - Added AutodiscoverSCP option so it can be set to a different URL than other services
 #>
 
 #requires -version 2
@@ -99,6 +100,9 @@ param(
 	[Parameter( Mandatory=$true)]
     [AllowEmptyString()]
 	[string]$ExternalURL,
+
+	[Parameter( Mandatory=$false)]
+	[string]$AutodiscoverSCP,
 
     [Parameter( Mandatory=$false)]
     [Boolean]$InternalSSL=$true,
@@ -191,7 +195,13 @@ Process {
             }
 
             Write-Host "Configuring Autodiscover"
-            Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
+            if ($AutodiscoverSCP) {
+                Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$AutodiscoverSCP/Autodiscover/Autodiscover.xml
+            }
+            else {
+                Get-ClientAccessServer $i | Set-ClientAccessServer -AutoDiscoverServiceInternalUri https://$internalurl/Autodiscover/Autodiscover.xml
+            }
+
 
             Write-Host "`r`n"
         }
