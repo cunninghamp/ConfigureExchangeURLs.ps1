@@ -1,8 +1,8 @@
-#Exchange Server URL Configuration Scripts
+# Exchange Server URL Configuration Scripts
 
 This repository contains two scripts that are useful for reviewing or configuring the URLs for the various Client Access services on Exchange Servers.
 
-##GetExchangeURLs.ps1
+## GetExchangeURLs.ps1
 
 The **GetExchangeURLs.ps1** script will return a list of the URLs configured on a Client Access server. This can be used to quickly review the existing configuration.
 
@@ -12,7 +12,7 @@ Example:
 .\Get-ExchangeURLs.ps1 -Server sydex1
 ```
 
-##ConfigureExchangeURLs.ps1
+## ConfigureExchangeURLs.ps1
 
 The **ConfigureExchangeURLs.ps1** script will configure one or more Client Access servers for the namespaces you specify. All Client Access server
 URLs will be set to the same namespace.
@@ -44,23 +44,18 @@ Examples:
 .\ConfigureExchangeURLs.ps1 -Server sydex1 -InternalURL mail.exchangeserverpro.net -ExternalURL mail.exchangeserverpro.net -AutodiscoverSCP autodiscover.exchangeserverpro.net
 ```
 
-##More Info
+## More Info
 
 http://exchangeserverpro.com/powershell-script-configure-exchange-urls/
 
-##Credits
-
+## Credits
 Written by: Paul Cunningham
-
-For more Exchange Server tips, tricks and news
-check out Exchange Server Pro.
-
-* Website:	http://exchangeserverpro.com
-* Twitter:	http://twitter.com/exchservpro
 
 Find me on:
 
-* My Blog:	http://paulcunningham.me
+* My Blog:	https://paulcunningham.me
 * Twitter:	https://twitter.com/paulcunningham
-* LinkedIn:	http://au.linkedin.com/in/cunninghamp/
+* LinkedIn:	https://au.linkedin.com/in/cunninghamp/
 * Github:	https://github.com/cunninghamp
+
+Check out my [books](https://paulcunningham.me/books/) and [courses](https://paulcunningham.me/training/) to learn more about Office 365 and Exchange Server.
